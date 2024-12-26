@@ -276,61 +276,123 @@ public class DirectedGraph {
 ### 5. Анализ правильности решения
 
 
-1. Тест на `A > X`:
-
-    - **Input**:
+    - **test**:
         ```
-        10 12 2 2 2 
+        public static void main(String[] args) {
+
+        DirectedGraph graphHelp = new DirectedGraph();
+        graphHelp.addEdge(1, 2);
+        graphHelp.addEdge(1, 3);
+        graphHelp.addEdge(1, 5);
+
+        DirectedGraph graph = new DirectedGraph();
+
+        graph.addEdge(1, 2);
+        graph.addEdge(1, 3);
+        graph.addEdge(1, 4);
+        graph.addEdge(3, 4);
+        graph.addEdge(4, 5);
+        graph.addEdge(5, 2);
+        graph.addEdge(5, 1);
+        graph.addEdge(6, 5);
+        graph.addEdge(7, 2);
+        graph.addEdge(7, 5);
+        graph.addEdge(7, 6);
+
+        System.out.println("граф:");
+        graph.showGraph();
+
+        graph.deleteVerticesWithMinEdgeDifference();
+        System.out.println("граф после удаления вершин с минимальной разницей рёбер:");
+
+        System.out.println("вершины: " + graph.getVertices());
+
+        System.out.println("вершины с двумя>= ребрами: " + graph.verticesWithMinEdges(2));
+
+        System.out.println("Вершины с преобладанием входящих рёбер: " + graph.verticesWithMoreIncomingEdges());
+
+        graph.changeDirectionEdge(1, 2);
+        System.out.println("после перенаправления 1 -> 2:");
+        graph.showGraph();
+
+        graph.deleteEdge(2, 3);
+        System.out.println("удаляем ребро 2 -> 3:");
+        graph.showGraph();
+
+        graph.deleteVertex(4);
+        System.out.println("после удаления вершины 4:");
+        graph.showGraph();
+
+        System.out.println("Вершины достижимые за 2 хода из вершины 3:");
+        graph.reachableInTwoSteps(3);
+
+        System.out.println("Вершины достижимые за 3 хода из вершины 2:");
+        graph.reachableInNSteps(2,3);
+
+        System.out.println("Граф после сложения с graphHelper:");
+        graph.plusGraph(graphHelp);
+        graph.showGraph();
+
+        List<Integer> myList = new ArrayList<>();
+        myList.add(3);
+        myList.add(5);
+        myList.add(3);
+        System.out.println(graph.deleteDuplicates(myList));
+
+    }
         ```
 
     - **Output**:
         ```
-        0
+        граф:
+        1 -> 2
+        1 -> 3
+        1 -> 4
+        3 -> 4
+        4 -> 5
+        5 -> 1
+        5 -> 2
+        6 -> 5
+        7 -> 2
+        7 -> 5
+        7 -> 6
+        граф после удаления вершин с минимальной разницей рёбер:
+        вершины: [1, 2, 4, 5, 7]
+        вершины с двумя>= ребрами: [1, 5, 7]
+        Вершины с преобладанием входящих рёбер: [2]
+        после перенаправления 1 -> 2:
+        1 -> 4
+        2 -> 1
+        4 -> 5
+        5 -> 1
+        5 -> 2
+        7 -> 2
+        7 -> 5
+        удаляем ребро 2 -> 3:
+        1 -> 4
+        2 -> 1
+        4 -> 5
+        5 -> 1
+        5 -> 2
+        7 -> 2
+        7 -> 5
+        после удаления вершины 4:
+        2 -> 1
+        5 -> 1
+        5 -> 2
+        7 -> 2
+        7 -> 5
+        Вершины достижимые за 2 хода из вершины 3:
+        Вершины достижимые за 3 хода из вершины 2:
+        Граф после сложения с graphHelper:
+        1 -> 2
+        1 -> 3
+        1 -> 5
+        2 -> 1
+        5 -> 1
+        5 -> 2
+        7 -> 2
+        7 -> 5
+        [3, 5]
         ```
 
-2. Тест на `A = X`:
-
-    - **Input**:
-        ```
-        10 10 2 2 2
-        ```
-
-    - **Output**:
-        ```
-        1
-        ```
-
-3. Тест на `A + B + C + D <= X `:
-
-    - **Input**:
-        ```
-        10 2 2 2 2 
-        ```
-
-    - **Output**:
-        ```
-        4
-        ```
-
-4. Тест на `A + B + C <= X` и `A + B + C + D > X`:
-
-   - **Input**:
-       ```
-       10 2 2 2 10
-       ```
-
-   - **Output**:
-       ```
-       3
-       ```
-4. Тест на `A < X` и `A + B > X`:
-
-   - **Input**:
-       ```
-       10 2 9 8 1
-       ```
-
-   - **Output**:
-       ```
-       1
-       ```
